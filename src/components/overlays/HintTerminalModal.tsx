@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { RoomId } from '../../types/game';
-import { ROOMS_CONFIG, PUZZLES_DATA } from '../../data/roomsData';
+import { ALL_ROOMS, getPuzzle } from '../../data/gameData';
 import { audioEngine } from '../../services/audioEngine';
 
 interface HintTerminalModalProps {
@@ -16,12 +16,15 @@ export const HintTerminalModal: React.FC<HintTerminalModalProps> = ({
   onUseHint,
   onClose
 }) => {
-  const roomConfig = ROOMS_CONFIG[currentRoomId];
+  const roomConfig = ALL_ROOMS[currentRoomId];
   
-  // Find relevant puzzle
+  // Find relevant puzzle: the one passed in, or the room's first puzzle interactable
   const puzzle = activePuzzleId
-    ? PUZZLES_DATA[activePuzzleId]
-    : Object.values(PUZZLES_DATA).find((p) => p.roomId === currentRoomId);
+    ? getPuzzle(activePuzzleId)
+    : roomConfig?.interactables
+        .filter((o) => o.puzzleId)
+        .map((o) => getPuzzle(o.puzzleId!))
+        .find(Boolean);
 
   const [hintTier, setHintTier] = useState<number>(1);
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { PlayerSettings } from '../../types/game';
 import { audioEngine } from '../../services/audioEngine';
-import { clearSavedGame } from '../../services/storageService';
+import { wipeAllData } from '../../services/storageService';
 
 interface SettingsModalProps {
   settings: PlayerSettings;
@@ -53,7 +53,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   };
 
   const handleResetData = () => {
-    clearSavedGame();
+    wipeAllData();
     audioEngine.playAlarm();
     window.location.reload();
   };

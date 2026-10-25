@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { audioEngine } from '../../services/audioEngine';
 import { RoomId } from '../../types/game';
-import { ROOMS_CONFIG } from '../../data/roomsData';
+import { ALL_ROOMS } from '../../data/gameData';
 
 interface DoorTransitionProps {
   fromRoomId: RoomId;
@@ -15,7 +15,7 @@ export const DoorTransition: React.FC<DoorTransitionProps> = ({
   onTransitionEnd
 }) => {
   const [phase, setPhase] = useState<number>(1);
-  const targetRoom = ROOMS_CONFIG[toRoomId];
+  const targetRoom = ALL_ROOMS[toRoomId];
 
   useEffect(() => {
     // Phase 1: Access accepted

@@ -28,7 +28,7 @@ export const Room03ServerVault: React.FC<RoomSceneProps> = ({
   return (
     <div 
       className={`room-scene-environment room-photo-scene room-03 ${isDoorOpen ? 'vault-breached' : 'vault-secured'}`}
-      style={{ backgroundImage: `url('/assets/rooms/room3_server.jpg')` }}
+      style={{ backgroundImage: `url('${import.meta.env.BASE_URL}assets/rooms/room3_server.jpg')` }}
     >
       {/* Subterranean Data Center Ambient Filter */}
       <div className={`scene-lighting-filter ${isAnomalySolved ? 'filter-server-normal' : 'filter-server-alert'}`} />

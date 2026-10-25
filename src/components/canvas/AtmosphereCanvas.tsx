@@ -56,6 +56,18 @@ export const AtmosphereCanvas: React.FC<AtmosphereCanvasProps> = ({
           return 'rgba(236, 72, 153, ';
         case 'room5_protocol':
           return 'rgba(234, 179, 8, ';
+        case 'room6_dark_relay':
+          return 'rgba(245, 158, 11, ';
+        case 'room7_listening_post':
+          return 'rgba(249, 115, 22, ';
+        case 'room8_antenna_array':
+          return 'rgba(253, 224, 71, ';
+        case 'room9_recall_vault':
+          return 'rgba(167, 139, 250, ';
+        case 'room10_paradox_gallery':
+          return 'rgba(139, 92, 246, ';
+        case 'room11_loop_terminus':
+          return 'rgba(124, 58, 237, ';
         default:
           return 'rgba(56, 189, 248, ';
       }

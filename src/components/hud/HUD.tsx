@@ -1,9 +1,9 @@
 import React from 'react';
 import { RoomConfig, InteractableObject, PlayerSettings } from '../../types/game';
-import { audioEngine } from '../../services/audioEngine';
 
 interface HUDProps {
   roomConfig: RoomConfig;
+  campaignTitle: string;
   elapsedSeconds: number;
   evidenceCount: number;
   hoveredObject: InteractableObject | null;
@@ -18,6 +18,7 @@ interface HUDProps {
 
 export const HUD: React.FC<HUDProps> = ({
   roomConfig,
+  campaignTitle,
   elapsedSeconds,
   evidenceCount,
   hoveredObject,
@@ -41,10 +42,10 @@ export const HUD: React.FC<HUDProps> = ({
       <div className="hud-top-left">
         <div className="hud-campaign-title">
           <span className="brand-bugout">BUGOUT</span>
-          <span className="brand-subtitle">THE LAST PROTOCOL</span>
+          <span className="brand-subtitle">{campaignTitle}</span>
         </div>
         <div className="hud-room-indicator">
-          <span className="hud-room-badge">CHAMBER 0{roomConfig.number}</span>
+          <span className="hud-room-badge">CHAMBER {roomConfig.number}</span>
           <span className="hud-room-name">{roomConfig.name}</span>
         </div>
       </div>

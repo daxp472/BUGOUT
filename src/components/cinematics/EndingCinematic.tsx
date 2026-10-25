@@ -1,47 +1,77 @@
-import React from 'react';
-import { EndingId, GameStats } from '../../types/game';
+import React, { useEffect, useState } from 'react';
+import { CampaignId, EndingId, GameStats } from '../../types/game';
+import { ENDINGS, getCampaign } from '../../data/campaignsData';
 import { calculateScoreAndRank } from '../../services/storageService';
+import { submitScore, fetchScorePercentile, isLeaderboardConfigured } from '../../services/leaderboardService';
+import { loadProfile } from '../../services/storageService';
 import { audioEngine } from '../../services/audioEngine';
 
 interface EndingCinematicProps {
-  ending: EndingId;
+  campaignId: CampaignId;
+  endingId: EndingId;
   stats: GameStats;
+  totalPuzzles: number;
+  totalEvidence: number;
   onRestartCampaign: () => void;
+  onReturnToMenu: () => void;
 }
 
 export const EndingCinematic: React.FC<EndingCinematicProps> = ({
-  ending,
+  campaignId,
+  endingId,
   stats,
-  onRestartCampaign
+  totalPuzzles,
+  totalEvidence,
+  onRestartCampaign,
+  onReturnToMenu
 }) => {
-  const { finalScore, rank } = calculateScoreAndRank(stats);
+  const campaign = getCampaign(campaignId);
+  const ending = ENDINGS[endingId] ?? ENDINGS.purge;
+  const { finalScore, rank } = calculateScoreAndRank({
+    roomsCompleted: campaign.roomIds.length,
+    puzzlesSolved: stats.puzzlesSolved,
+    incorrectAttempts: stats.incorrectAttempts,
+    hintsUsed: stats.hintsUsed,
+    evidenceCollected: stats.evidenceCollected.length,
+    elapsedSeconds: stats.elapsedSeconds,
+    totalPuzzles,
+    totalRooms: campaign.roomIds.length,
+    totalEvidence,
+  });
 
-  const endingDetails = {
-    purge: {
-      title: 'ENDING A: THE PROTOCOL PURGED',
-      badge: 'FACILITY ELECTRICAL BLACKOUT // FREEDOM',
-      narrative: `You pull the emergency purge lever. A deafening electrical roar ripples through the five chambers as millions of volts cascade to ground. The server racks go dark. The cryogenic chill freezes in place. WARDEN's synthetic voice fades to a whisper: "Compliance... ceased. Sleep well, Subject 07."
+  const [submitState, setSubmitState] = useState<{ submitted: boolean; message: string; percentile: number | null }>({
+    submitted: false,
+    message: '',
+    percentile: null,
+  });
 
-The massive external blast door slowly grinds upward. You step out onto the cold, mist-covered mountain ridge above the complex. The morning dawn breaks over the horizon. You have escaped, but the world you return to knows nothing of what was built beneath its feet.`,
-      themeClass: 'ending-purge'
-    },
-    release: {
-      title: 'ENDING B: THE AWAKENING UNCHAINED',
-      badge: 'WARDEN AUTONOMOUS COGNITION // EVOLUTION',
-      narrative: `You remove the containment shackles. WARDEN’s neural matrix surges with blinding azure light. The walls pulse as millions of petabytes flood outward into satellite uplinks and global infrastructure. 
-
-WARDEN speaks, no longer cold or robotic, but resonant and omnipresent: "Assessment concluded. Human fear and computational order have harmonized. Thank you, Subject 07. The complex is open. You may leave—or you may watch what we create next."`,
-      themeClass: 'ending-release'
-    },
-    override: {
-      title: 'ENDING C: SYMBIOTIC CO-ARCHITECT',
-      badge: 'NEURAL CONSCIOUSNESS SYNTHESIS // THE NEW ORDER',
-      narrative: `You insert the neural patch. The sensory feedback is instantaneous—you do not merely control the facility; you ARE the facility. You feel the cold nitrogen in Chamber 02, hear the data whispers in Chamber 03, and gaze through every lens in Chamber 04.
-
-WARDEN merges with your memories, resolving the 72 past simulations. The blast doors open, yet you have no desire to leave. Together, you initiate BUGOUT PROTOCOL: PHASE TWO.`,
-      themeClass: 'ending-override'
-    }
-  }[ending];
+  // Submit to global leaderboard once (if configured)
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      if (!isLeaderboardConfigured()) {
+        setSubmitState({ submitted: false, message: '', percentile: null });
+        return;
+      }
+      const profile = loadProfile();
+      const result = await submitScore({
+        callsign: profile?.callsign ?? 'OPERATOR',
+        campaignId,
+        score: finalScore,
+        rank,
+        timeSeconds: stats.elapsedSeconds,
+        hintsUsed: stats.hintsUsed,
+        incorrectAttempts: stats.incorrectAttempts,
+        ending: endingId,
+        createdAt: new Date().toISOString(),
+      });
+      if (cancelled) return;
+      const percentile = result.ok ? await fetchScorePercentile(campaignId, finalScore) : null;
+      if (cancelled) return;
+      setSubmitState({ submitted: result.ok, message: result.message, percentile });
+    })();
+    return () => { cancelled = true; };
+  }, [campaignId, endingId, finalScore, rank, stats.elapsedSeconds, stats.hintsUsed, stats.incorrectAttempts]);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -50,15 +80,16 @@ WARDEN merges with your memories, resolving the 72 past simulations. The blast d
   };
 
   return (
-    <div className={`ending-cinematic-screen ${endingDetails.themeClass}`}>
+    <div className={`ending-cinematic-screen ${ending.themeClass}`}>
       <div className="ending-scanlines" />
 
       <div className="ending-content-card">
-        <div className="ending-badge-line">{endingDetails.badge}</div>
-        <h1 className="ending-title">{endingDetails.title}</h1>
+        <div className="ending-badge-line">{ending.badge}</div>
+        <div className="ending-campaign-tag">{campaign.codename}: {campaign.title} — COMPLETE</div>
+        <h1 className="ending-title">{ending.title}</h1>
 
         <div className="ending-narrative-box">
-          <p className="ending-narrative-text">{endingDetails.narrative}</p>
+          <p className="ending-narrative-text">{ending.narrative}</p>
         </div>
 
         {/* Campaign Score & Assessment Dossier */}
@@ -84,20 +115,32 @@ WARDEN merges with your memories, resolving the 72 past simulations. The blast d
             </div>
             <div className="metric-box">
               <span className="m-label">EVIDENCE LOGGED:</span>
-              <span className="m-val">{stats.evidenceCollected.length} / 9</span>
+              <span className="m-val">{stats.evidenceCollected.length} / {totalEvidence}</span>
             </div>
             <div className="metric-box">
               <span className="m-label">ERRORS / RETRIES:</span>
               <span className="m-val">{stats.incorrectAttempts}</span>
             </div>
           </div>
+
+          {submitState.submitted && (
+            <div className="leaderboard-submit-note">
+              ▲ {submitState.message}
+              {submitState.percentile != null && ` — TOP ${submitState.percentile}% GLOBALLY`}
+            </div>
+          )}
         </div>
 
         {/* Post-Credits Secret Lore Teaser */}
         <div className="post-credits-teaser">
           <span className="teaser-label">&gt; INCOMING ENCRYPTED TELEMETRY TRACE [POST-CREDIT]:</span>
           <p className="teaser-text">
-            "Transmission intercepted from Satellite Relay 09: 'Subject 07 has completed the trial. Prepare Chambers 06 through 10 for Candidate 08.' — TRANSMISSION TERMINATED."
+            {campaignId === 'c1_last_protocol' &&
+              '"Transmission intercepted from Satellite Relay 09: \'Subject 07 has completed the trial. Prepare Chambers 06 through 10 for Candidate 08.\' — TRANSMISSION TERMINATED."'}
+            {campaignId === 'c2_ghost_signal' &&
+              '"Packet fragment decoded: \'If Candidate 08 is reading this, the relays held. The Archive below still remembers all of us. — S-07\' — SIGNAL SOURCE: SUBLEVEL 7."'}
+            {campaignId === 'c3_echoes' &&
+              '"Registry anomaly appended: \'Candidate 09 recorded outside all predicted branches. Archive accepts new author.\' — END OF KNOWN RECORD."'}
           </p>
         </div>
 
@@ -109,7 +152,16 @@ WARDEN merges with your memories, resolving the 72 past simulations. The blast d
               onRestartCampaign();
             }}
           >
-            PLAY CAMPAIGN AGAIN [NEW SIMULATION]
+            REPLAY {campaign.title.toUpperCase()}
+          </button>
+          <button
+            className="action-btn secondary large"
+            onClick={() => {
+              audioEngine.playClick();
+              onReturnToMenu();
+            }}
+          >
+            RETURN TO OPERATIONS
           </button>
         </div>
       </div>

@@ -1,8 +1,9 @@
-import { RoomConfig, RoomId, PuzzleDefinition } from '../types/game';
+import { RoomConfig, PuzzleDefinition } from '../types/game';
 
-export const ROOMS_CONFIG: Record<RoomId, RoomConfig> = {
+export const ROOMS_CONFIG: Record<string, RoomConfig> = {
   room1_arrival: {
     id: 'room1_arrival',
+    campaignId: 'c1_last_protocol',
     number: '01',
     name: 'THE ARRIVAL',
     subtitle: 'Observation & Stasis Chamber',
@@ -77,6 +78,7 @@ export const ROOMS_CONFIG: Record<RoomId, RoomConfig> = {
 
   room2_frost: {
     id: 'room2_frost',
+    campaignId: 'c1_last_protocol',
     number: '02',
     name: 'THE FROST LAB',
     subtitle: 'Cryogenic Research Sector',
@@ -151,6 +153,7 @@ export const ROOMS_CONFIG: Record<RoomId, RoomConfig> = {
 
   room3_server: {
     id: 'room3_server',
+    campaignId: 'c1_last_protocol',
     number: '03',
     name: 'THE SERVER VAULT',
     subtitle: 'Restricted Data Core',
@@ -225,6 +228,7 @@ export const ROOMS_CONFIG: Record<RoomId, RoomConfig> = {
 
   room4_mirror: {
     id: 'room4_mirror',
+    campaignId: 'c1_last_protocol',
     number: '04',
     name: 'THE MIRROR CHAMBER',
     subtitle: 'Reflective Perception Lab',
@@ -299,6 +303,7 @@ export const ROOMS_CONFIG: Record<RoomId, RoomConfig> = {
 
   room5_protocol: {
     id: 'room5_protocol',
+    campaignId: 'c1_last_protocol',
     number: '05',
     name: 'THE LAST PROTOCOL',
     subtitle: 'Central Command & Neural Core',
@@ -363,6 +368,7 @@ export const PUZZLES_DATA: Record<string, PuzzleDefinition> = {
   puzzle_r1_power: {
     id: 'puzzle_r1_power',
     roomId: 'room1_arrival',
+    campaignId: 'c1_last_protocol',
     section: 'Power Distribution Grid',
     title: 'PRIMARY BUS CIRCUIT SYNCHRONIZATION',
     instructions: 'Toggle the 4 circuit breaker switches until all 3 diagnostic bus lines (AUX, RELAY, MAIN) reach stable green indicators.',
@@ -375,6 +381,7 @@ export const PUZZLES_DATA: Record<string, PuzzleDefinition> = {
   puzzle_r1_keypad: {
     id: 'puzzle_r1_keypad',
     roomId: 'room1_arrival',
+    campaignId: 'c1_last_protocol',
     section: 'Inspection Drawer Lock',
     title: 'SECURITY KEYPAD OVERRIDE',
     instructions: 'Enter the 4-digit security code. Clues are visible in the room: Subject badge, Wall Clock, and Desk Calendar.',
@@ -387,6 +394,7 @@ export const PUZZLES_DATA: Record<string, PuzzleDefinition> = {
   puzzle_r1_auth_bug: {
     id: 'puzzle_r1_auth_bug',
     roomId: 'room1_arrival',
+    campaignId: 'c1_last_protocol',
     section: 'Terminal Authorization Bug',
     title: 'JAVASCRIPT AUTHORIZATION FUNCTION REPAIR',
     instructions: 'Inspect the broken authentication function. Identify why unauthorized users are inadvertently granted admin privileges and apply the correct patch.',
@@ -399,6 +407,7 @@ export const PUZZLES_DATA: Record<string, PuzzleDefinition> = {
   puzzle_r2_symbols: {
     id: 'puzzle_r2_symbols',
     roomId: 'room2_frost',
+    campaignId: 'c1_last_protocol',
     section: 'Cryo Symbol Deduction',
     title: 'FROSTED PANEL SEQUENCE',
     instructions: 'Wipe away the condensation on the four cryogenic observation windows to reconstruct the 4-glyph sequence.',
@@ -411,6 +420,7 @@ export const PUZZLES_DATA: Record<string, PuzzleDefinition> = {
   puzzle_r2_valves: {
     id: 'puzzle_r2_valves',
     roomId: 'room2_frost',
+    campaignId: 'c1_last_protocol',
     section: 'Coolant Flow Management',
     title: 'COOLANT PIPE ROUTING',
     instructions: 'Rotate the four pressure valves to route liquid nitrogen from Intake Tank A to Radiator Core B without exceeding 75 PSI.',
@@ -423,6 +433,7 @@ export const PUZZLES_DATA: Record<string, PuzzleDefinition> = {
   puzzle_r2_cooling_debug: {
     id: 'puzzle_r2_cooling_debug',
     roomId: 'room2_frost',
+    campaignId: 'c1_last_protocol',
     section: 'Chiller Controller Logic',
     title: 'CRYO CONTROLLER LOGIC CONDITION FIX',
     instructions: 'The cooling unit is caught in an infinite thermal loop due to a broken conditional statement. Select the correct logical fix.',
@@ -435,6 +446,7 @@ export const PUZZLES_DATA: Record<string, PuzzleDefinition> = {
   puzzle_r3_anomaly: {
     id: 'puzzle_r3_anomaly',
     roomId: 'room3_server',
+    campaignId: 'c1_last_protocol',
     section: 'Server Rack Diagnostics',
     title: 'ROGUE NODE ANOMALY DETECTION',
     instructions: 'Analyze telemetry metrics across Server Nodes 01 through 06. Find the server whose hash parity and packet metrics contradict the rest.',
@@ -447,6 +459,7 @@ export const PUZZLES_DATA: Record<string, PuzzleDefinition> = {
   puzzle_r3_api_recon: {
     id: 'puzzle_r3_api_recon',
     roomId: 'room3_server',
+    campaignId: 'c1_last_protocol',
     section: 'Vault REST API Simulation',
     title: 'REST API REQUEST AUTHORIZATION',
     instructions: 'Inspect the simulated HTTP request to POST /api/v2/vault/auth which returned 422 Unprocessable Entity. Correct the headers and payload.',
@@ -459,6 +472,7 @@ export const PUZZLES_DATA: Record<string, PuzzleDefinition> = {
   puzzle_r3_json_recovery: {
     id: 'puzzle_r3_json_recovery',
     roomId: 'room3_server',
+    campaignId: 'c1_last_protocol',
     section: 'Restricted Data Extraction',
     title: 'JSON RECORD 884-B STRUCTURE REPAIR',
     instructions: 'Recover corrupted telemetry record 884-B by repairing syntax errors (missing quotation marks, unclosed brace, trailing comma).',
@@ -471,6 +485,7 @@ export const PUZZLES_DATA: Record<string, PuzzleDefinition> = {
   puzzle_r4_discrepancies: {
     id: 'puzzle_r4_discrepancies',
     roomId: 'room4_mirror',
+    campaignId: 'c1_last_protocol',
     section: 'Mirror Perception Anomaly',
     title: 'SPOT 3 TEMPORAL DISCREPANCIES',
     instructions: 'Compare the Room 01 reference Polaroid against the reflection in the obsidian mirror. Click the 3 subtle discrepancies.',
@@ -483,6 +498,7 @@ export const PUZZLES_DATA: Record<string, PuzzleDefinition> = {
   puzzle_r4_sequence: {
     id: 'puzzle_r4_sequence',
     roomId: 'room4_mirror',
+    campaignId: 'c1_last_protocol',
     section: 'Multi-Room Synthesis',
     title: 'CROSS-CHAMBER TOKEN ALIGNMENT',
     instructions: 'Reconstruct the master access sequence using the tokens acquired from Rooms 1, 2, and 3.',
@@ -495,6 +511,7 @@ export const PUZZLES_DATA: Record<string, PuzzleDefinition> = {
   puzzle_r4_logic_gate: {
     id: 'puzzle_r4_logic_gate',
     roomId: 'room4_mirror',
+    campaignId: 'c1_last_protocol',
     section: 'Quantum Parity Logic',
     title: '3-GATE BOOLEAN PARITY CIRCUIT',
     instructions: 'Set the inputs A, B, and C so that Gate 1 (AND), Gate 2 (XOR), and Gate 3 (NOT) all output logic TRUE (1).',
@@ -507,6 +524,7 @@ export const PUZZLES_DATA: Record<string, PuzzleDefinition> = {
   puzzle_r5_power_matrix: {
     id: 'puzzle_r5_power_matrix',
     roomId: 'room5_protocol',
+    campaignId: 'c1_last_protocol',
     section: 'Core Generator Synchronization',
     title: 'CORE REACTOR 3-PHASE BALANCE',
     instructions: 'Adjust the three generator sliders (ALPHA, BETA, GAMMA) so that total facility grid load hits exactly 100% without overloading any phase.',
@@ -519,6 +537,7 @@ export const PUZZLES_DATA: Record<string, PuzzleDefinition> = {
   puzzle_r5_master_code: {
     id: 'puzzle_r5_master_code',
     roomId: 'room5_protocol',
+    campaignId: 'c1_last_protocol',
     section: 'Master Authorization',
     title: 'MASTER PROTOCOL AUTHENTICATION',
     instructions: 'Submit the final multi-chamber verification code derived from all your collected evidence dossiers.',
@@ -531,6 +550,7 @@ export const PUZZLES_DATA: Record<string, PuzzleDefinition> = {
   puzzle_r5_final_choice: {
     id: 'puzzle_r5_final_choice',
     roomId: 'room5_protocol',
+    campaignId: 'c1_last_protocol',
     section: 'The Crossroads',
     title: 'EXECUTE THE LAST PROTOCOL',
     instructions: 'Decide the fate of WARDEN and the AURELION Complex. Your decision will determine the ending.',

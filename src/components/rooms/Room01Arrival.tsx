@@ -28,7 +28,7 @@ export const Room01Arrival: React.FC<RoomSceneProps> = ({
   return (
     <div 
       className={`room-scene-environment room-photo-scene room-01 ${isPowerOn ? 'powered-env' : 'unpowered-env'}`}
-      style={{ backgroundImage: `url('/assets/rooms/room1_arrival.jpg')` }}
+      style={{ backgroundImage: `url('${import.meta.env.BASE_URL}assets/rooms/room1_arrival.jpg')` }}
     >
       {/* Dynamic Lighting & Environmental Ambience */}
       <div className={`scene-lighting-filter ${isPowerOn ? 'filter-normal' : 'filter-emergency'}`} />

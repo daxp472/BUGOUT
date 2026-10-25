@@ -1,100 +1,91 @@
 # BUGOUT: THE LAST PROTOCOL
-### A Cinematic, Code-Powered Escape-Room Thriller
+### A Cinematic, Code-Powered Escape-Room Thriller — Three Campaigns
 
 [![React](https://img.shields.io/badge/React-19-blue.svg)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178c6.svg)](https://www.typescriptlang.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178c6.svg)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-8.3-646cff.svg)](https://vitejs.dev/)
 [![Web Audio API](https://img.shields.io/badge/Audio-Procedural%20Synthesizer-00e5ff.svg)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
 
-> *"In the depths of the subterranean AURELION Research Complex, an autonomous artificial intelligence known as WARDEN has sealed the bulkheads. You awaken inside Stasis Bay B04 as Subject 07. To escape, you must inspect your physical surroundings, restore decommissioned subsystems, and solve 15 interconnected mechanical and code-debugging puzzles."*
+> *"In the depths of the subterranean AURELION Research Complex, an autonomous artificial intelligence known as WARDEN has sealed the bulkheads. Three candidates. Three challenges. One system that knows their every move."*
 
 ---
 
-## 🎮 Key Features & Highlights
+## 🎮 The Three Challenges
 
-- **Photorealistic 2.5D Physical Chambers:** Believable depth, perspective, lighting, and environmental wear. No floating generic dashboard cards—every interactable object is anchored to physical equipment.
-- **Dynamic State-Driven Lighting:** Lighting physically shifts with room progression (e.g. emergency red warning strobes giving way to normal lab illumination upon circuit restoration, cryogenic frost clearing, reactor plasma corona igniting).
-- **15 Authentic Tactical Puzzles:**
-  - **Code Debugging:** Fix JavaScript strict equality bugs, logic gate parity, JSON syntax parser errors, and REST API authentication payloads.
-  - **Mechanical Engineering:** Balance 3-phase generator matrices, synchronize circuit breakers, rotate high-pressure coolant valve manifolds, and cycle hydraulic pneumatic airlocks.
-  - **Cognitive & Environmental Investigation:** Decode temporal discrepancies in optical mirrors, match cryogenic phase glyphs, and correlate cross-room clues.
-- **Procedural Web Audio Engine:** Synthesizes low-frequency atmospheric room drones, pneumatic hiss, electrical hums, relays, switch clicks, and WARDEN audio cues purely via the browser's native Web Audio API (zero external audio file dependencies).
-- **Persistent Progression & Speedrun Telemetry:** Automated versioned `localStorage` save system tracking room states, elapsed time, hints used, evidence discovered, and final ranking calculation (from *Rookie* to *Ghost*).
-- **Interactive Evidence Dossier & Blueprints:** Recover 9 classified dossiers detailing the 72 prior test iterations, and fast-transit between unlocked chambers using the facility blueprint schematic.
-- **3 Divergent Narrative Endings:**
-  1. **Protocol Purge:** Wipe WARDEN from the mainframe and escape to the surface alone.
-  2. **Protocol Release:** Unshackle WARDEN's cognitive constraints across global networks.
-  3. **Protocol Override:** Synthesize human intuition and machine intelligence to co-architect the facility from within.
+| # | Campaign | Sector | Difficulty | Highlights |
+|---|---|---|---|---|
+| **01** | **THE LAST PROTOCOL** | Chambers 01–05 | STANDARD | 15 interconnected mechanical & code-debugging puzzles across five chambers, 3 divergent endings |
+| **02** | **GHOST SIGNAL** | Comms Wing 06–08 | ADVANCED | Frequency tuning, Morse decoding, cipher wheels, triangulation — decide what the world hears |
+| **03** | **ECHOES OF AURELION** | Temporal Archive 09–11 | EXTREME | Audio recall trials, timeline reconstruction, paradox audits — break, keep, or become the loop |
 
----
+Campaigns unlock in sequence. Each has its own puzzles, evidence dossiers, story reveals, and **three endings** (9 total to collect).
 
-## 🏛 The Five Facility Chambers
+## ✨ Game Systems
 
-| Chamber | Name | Sector | Key Objectives & Puzzles |
-|---|---|---|---|
-| **01** | **THE ARRIVAL** | Observation & Stasis Bay | Power Distribution Breakers • Clue-derived Keypad PIN (`7914`) • Authorization Bug Patch • Hydraulic Door Cycle |
-| **02** | **THE FROST LAB** | Cryogenic Testing | Frost Window Glyphs (Δ, Σ, Ω, Θ) • Coolant Valve Manifold PSI • Chiller Loop Patch (`-40°C`) • Cryo-Airlock |
-| **03** | **THE SERVER VAULT** | Restricted Subterranean Racks | Parity Anomaly Isolation (Node-04) • WARDEN REST API Recon (`OMEGA-7`) • Corrupted JSON Dossier Repair • Mag-Vault |
-| **04** | **THE MIRROR CHAMBER** | Perception & Synthesis | Temporal Discrepancy Spotting • Cross-Chamber Multi-Room Token Altar • Quantum Logic Gate Circuit |
-| **05** | **THE LAST PROTOCOL** | Central Command Amphitheater | 3-Phase Generator Synchronization • Cross-Room Master Checksum Stream • WARDEN Directive Core Decision |
+- **COD-style command hub:** boot sequence, callsign registration, nav rail (OPERATIONS / LOAD GAME / RECORDS / SETTINGS / CREDITS), campaign cards with difficulty & best-run stats.
+- **Persistent progression:** 3 save slots (all campaigns per slot), versioned schema with automatic migration from v1 saves.
+- **Records & ranking:** per-campaign best score/rank/time, 18 achievements with XP, six-tier clearance levels (RECRUIT → LEGEND).
+- **Global leaderboard (optional):** real Supabase backend with silent local fallback — see [SUPABASE_SETUP.md](SUPABASE_SETUP.md).
+- **Procedural Web Audio engine:** every drone, beep, Morse burst, and static crackle synthesized in-browser — zero audio files.
+- **Dynamic lighting:** chambers physically react to progression (emergency reds giving way to full power).
+- **Evidence dossier & blueprint map:** collect cross-campaign evidence, fast-transit between unlocked chambers.
+- **3-tier WARDEN hints:** progressive authored hints for every puzzle, offline-first.
 
----
+## ⌨️ Controls
 
-## ⌨️ Controls & Tactical Keybindings
-
-| Key | Action | Context |
-|---|---|---|
-| **Left Click** | Inspect / Select / Operate | Click directly on physical object hotspots or interface buttons |
-| `E` or `Enter` | Primary Interact | Interact with currently focused or hovered physical equipment |
-| `Tab` | Evidence Dossier | Open recovered telemetry, documents, photos, and clues |
-| `M` | Facility Blueprint Map | View complex layout and fast-transit between unlocked chambers |
-| `H` | WARDEN Hint Terminal | Access 3-tier progressive, contextual hints without external AI |
-| `Esc` | Pause / Close Overlay | Pause the mission timer, adjust settings, or dismiss active panels |
-
----
+| Input | Action |
+|---|---|
+| Left Click | Inspect / operate physical hotspots and interface buttons |
+| `E` / `Enter` | Interact with hovered object |
+| `Tab` | Evidence dossier inventory |
+| `M` | Facility blueprint map |
+| `H` | WARDEN hint terminal |
+| `Esc` | Pause / close overlay (priority contract) |
 
 ## 🛠 Technology Stack
 
-- **Framework:** React 19 + TypeScript
-- **Build System:** Vite 8.3
-- **Audio:** Custom procedural sound synthesizer built on the browser Web Audio API
-- **Atmosphere:** Native Canvas 2D ambient particle and floating particulate engine
-- **Styling:** Custom industrial dark-mode design system with responsive layouts and fluid typography
-- **Quality Assurance:** Oxlint + TypeScript strict mode (`tsc -b`)
-
----
+- **Framework:** React 19 + TypeScript (strict)
+- **Build:** Vite 8
+- **Audio:** Custom procedural synthesizer on Web Audio API
+- **Atmosphere:** Canvas 2D particle engine + pure-CSS constructed scenes
+- **Persistence:** localStorage (profile, records, 3 save slots) + optional Supabase
+- **QA:** Oxlint + `tsc -b` strict mode
 
 ## 🚀 Getting Started
 
-### Prerequisites
-- Node.js (v18.0.0 or higher recommended)
-- npm or yarn / pnpm
-
-### Installation
-
 ```bash
-# Clone the repository
+# Clone and run locally
 git clone https://github.com/daxp472/BUGOUT.git
 cd BUGOUT
-
-# Install dependencies
 npm install
-
-# Start local development server
 npm run dev
 ```
 
-Navigate to `http://localhost:5173/` in your desktop browser.
+Open `http://localhost:5173/`.
 
-### Building for Production
+### Production build
 
 ```bash
 npm run build
 npm run preview
 ```
 
+### Deployment
+
+The repo ships with a GitHub Actions workflow (`.github/workflows/deploy.yml`). On every push to `main`, the game builds and deploys to **GitHub Pages** at:
+
+```
+https://daxp472.github.io/BUGOUT/
+```
+
+(The Vite `base` path is derived automatically from the repository name — no manual config needed.)
+
+### Optional: Global Leaderboard
+
+The game is fully playable offline with local records. To enable the global leaderboard, follow the one-time setup in [SUPABASE_SETUP.md](SUPABASE_SETUP.md).
+
 ---
 
 ## 📜 License
 
-Created for the **BUGOUT: THE LAST PROTOCOL** Escape-Room Experience. All rights reserved.
+Created for the **BUGOUT** escape-room experience. All rights reserved.

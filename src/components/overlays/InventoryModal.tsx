@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { EvidenceItem } from '../../types/game';
-import { EVIDENCE_ITEMS } from '../../data/evidenceData';
+import { CampaignId, EvidenceItem } from '../../types/game';
+import { ALL_EVIDENCE, countCampaignEvidence } from '../../data/gameData';
 import { audioEngine } from '../../services/audioEngine';
 
 interface InventoryModalProps {
+  campaignId: CampaignId;
   collectedIds: string[];
   onClose: () => void;
 }
 
 export const InventoryModal: React.FC<InventoryModalProps> = ({
+  campaignId,
   collectedIds,
   onClose
 }) => {
@@ -17,12 +19,13 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
   );
   const [filterCategory, setFilterCategory] = useState<string>('all');
 
-  const allItems = collectedIds.map((id) => EVIDENCE_ITEMS[id]).filter(Boolean);
+  const campaignTotal = countCampaignEvidence(campaignId);
+  const allItems = collectedIds.map((id) => ALL_EVIDENCE[id]).filter(Boolean);
   const filteredItems = filterCategory === 'all'
     ? allItems
     : allItems.filter((i) => i.category === filterCategory);
 
-  const activeItem: EvidenceItem | undefined = selectedId ? EVIDENCE_ITEMS[selectedId] : undefined;
+  const activeItem: EvidenceItem | undefined = selectedId ? ALL_EVIDENCE[selectedId] : undefined;
 
   return (
     <div className="puzzle-modal-backdrop" onClick={onClose}>
@@ -38,7 +41,7 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
 
         {/* Filter Categories */}
         <div className="inventory-category-tabs">
-          {['all', 'document', 'technical', 'photo', 'recovered_data'].map((cat) => (
+          {['all', 'document', 'technical', 'photo', 'recovered_data', 'signal', 'recording'].map((cat) => (
             <button
               key={cat}
               className={`cat-tab-btn ${filterCategory === cat ? 'active' : ''}`}
@@ -105,7 +108,7 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
                   <div className="dossier-related-tags">
                     <span className="related-label">CORRELATED EVIDENCE:</span>
                     {activeItem.relatedClues.map((relId) => {
-                      const relObj = EVIDENCE_ITEMS[relId];
+                      const relObj = ALL_EVIDENCE[relId];
                       const isFound = collectedIds.includes(relId);
                       return (
                         <span
@@ -135,7 +138,7 @@ export const InventoryModal: React.FC<InventoryModalProps> = ({
 
         <div className="puzzle-footer">
           <span className="inventory-counter-text">
-            TOTAL EVIDENCE COLLECTED: <strong>{collectedIds.length} / {Object.keys(EVIDENCE_ITEMS).length}</strong>
+            TOTAL EVIDENCE COLLECTED: <strong>{collectedIds.length} / {campaignTotal}</strong>
           </span>
           <button className="action-btn secondary" onClick={onClose}>
             RETURN TO CHAMBER [ESC]

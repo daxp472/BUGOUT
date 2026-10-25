@@ -28,7 +28,7 @@ export const Room04MirrorChamber: React.FC<RoomSceneProps> = ({
   return (
     <div 
       className={`room-scene-environment room-photo-scene room-04 ${isDoorOpen ? 'mirror-shifted' : 'mirror-reflective'}`}
-      style={{ backgroundImage: `url('/assets/rooms/room4_mirror.jpg')` }}
+      style={{ backgroundImage: `url('${import.meta.env.BASE_URL}assets/rooms/room4_mirror.jpg')` }}
     >
       {/* Eerie Magenta Optical Shimmer Filter */}
       <div className={`scene-lighting-filter ${isLogicSolved ? 'filter-mirror-aligned' : 'filter-mirror-dissonant'}`} />

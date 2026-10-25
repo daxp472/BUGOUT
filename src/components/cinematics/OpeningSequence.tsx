@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import { CampaignDefinition } from '../../types/game';
 import { audioEngine } from '../../services/audioEngine';
 
 interface OpeningSequenceProps {
+  campaign: CampaignDefinition;
   onComplete: () => void;
 }
 
-export const OpeningSequence: React.FC<OpeningSequenceProps> = ({ onComplete }) => {
+export const OpeningSequence: React.FC<OpeningSequenceProps> = ({ campaign, onComplete }) => {
   const [step, setStep] = useState<number>(0);
   const [subtitles, setSubtitles] = useState<string>('');
 
   useEffect(() => {
-    // Step 0: Black screen, hum begins
-    audioEngine.playAmbient('lab');
+    // Step 0: Black screen, ambience begins
+    const startRoom = campaign.roomIds[0];
+    audioEngine.playAmbient('menu');
+    const t0 = setTimeout(() => audioEngine.playAmbient('lab'), 400);
+
     const t1 = setTimeout(() => {
       setStep(1); // Emergency lights flicker
       audioEngine.playSwitch();
@@ -20,37 +25,41 @@ export const OpeningSequence: React.FC<OpeningSequenceProps> = ({ onComplete }) 
     const t2 = setTimeout(() => {
       setStep(2); // Terminal boots
       audioEngine.playWardenVoice();
-      setSubtitles('WARDEN: "Wakefulness confirmed. Stasis stasis chamber 01 bio-telemetry normalized."');
-    }, 2600);
+      setSubtitles(`WARDEN: "${campaign.wardenIntro}"`);
+    }, 2800);
 
     const t3 = setTimeout(() => {
       setStep(3); // Locks engage
       audioEngine.playPneumaticDoor();
-      setSubtitles('WARDEN: "Exit authorization remains suspended. Cognitive assessment protocol active."');
-    }, 4800);
+      setSubtitles(`${campaign.title.toUpperCase()} // ${campaign.subtitle.toUpperCase()}`);
+    }, 5200);
 
     const t4 = setTimeout(() => {
       onComplete();
-    }, 7200);
+    }, 7600);
 
     return () => {
+      clearTimeout(t0);
       clearTimeout(t1);
       clearTimeout(t2);
       clearTimeout(t3);
       clearTimeout(t4);
     };
-  }, [onComplete]);
+  }, [onComplete, campaign]);
+
+  const startRoomName = campaign.title;
 
   return (
-    <div className={`cinematic-opening-container step-${step}`}>
+    <div className={`cinematic-opening-container step-${step} campaign-opening-${campaign.index}`}>
       <div className="opening-scanlines" />
       <div className={`emergency-glow-sweep step-${step}`} />
-      
+
       <div className="opening-visual-frame">
         <div className={`boot-terminal-text ${step >= 2 ? 'visible' : ''}`}>
           <span className="boot-line">&gt; AURELION RESEARCH FACILITY BOOT SEQUENCE</span>
-          <span className="boot-line">&gt; SUBJECT 07 // NEURAL METRICS: ONLINE</span>
-          <span className="boot-line">&gt; RESTRICTED TESTING FACILITY: FIVE CHAMBERS SEALED</span>
+          <span className="boot-line">&gt; CANDIDATE INTERFACE // {campaign.codename}: {campaign.title}</span>
+          <span className="boot-line">&gt; {campaign.subtitle.toUpperCase()}</span>
+          <span className="boot-line">&gt; {campaign.tagline}</span>
         </div>
       </div>
 

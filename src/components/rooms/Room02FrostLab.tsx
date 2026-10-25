@@ -28,7 +28,7 @@ export const Room02FrostLab: React.FC<RoomSceneProps> = ({
   return (
     <div 
       className={`room-scene-environment room-photo-scene room-02 ${isCryoFixed ? 'cryo-stabilized' : 'cryo-overcooling'}`}
-      style={{ backgroundImage: `url('/assets/rooms/room2_frost.jpg')` }}
+      style={{ backgroundImage: `url('${import.meta.env.BASE_URL}assets/rooms/room2_frost.jpg')` }}
     >
       {/* Cold Icy Atmosphere Lighting Filter */}
       <div className={`scene-lighting-filter ${isCryoFixed ? 'filter-cryo-stable' : 'filter-cryo-cold'}`} />

@@ -27,7 +27,7 @@ export const Room05LastProtocol: React.FC<RoomSceneProps> = ({
   return (
     <div 
       className={`room-scene-environment room-photo-scene room-05 ${isPowerBalanced ? 'reactor-ignited' : 'reactor-dormant'}`}
-      style={{ backgroundImage: `url('/assets/rooms/room5_protocol.jpg')` }}
+      style={{ backgroundImage: `url('${import.meta.env.BASE_URL}assets/rooms/room5_protocol.jpg')` }}
     >
       {/* Colossal Industrial Core Lighting Filter */}
       <div className={`scene-lighting-filter ${isPowerBalanced ? 'filter-core-ignited' : 'filter-core-amber'}`} />
